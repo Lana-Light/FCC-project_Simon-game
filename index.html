@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Courgette|Kavivanar|Dosis" rel="stylesheet">
+  <style>
+body {
+  font-family: "Courgette", "Kavivanar", "Dosis", cursive;
+  text-align: center;
+  background-image: url(" http://illustrators.ru/uploads/illustration/image/1141683/main_Кристаллы.jpg ");
+  background-size: 70px 70px;
+}
+
+.shape {
+  position: absolute;
+  background: lime;
+  width: 220px;
+  height: 220px;
+  z-index: 2;
+}
+
+.game {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: auto;
+}
+
+#a {
+  background: green;
+  left: 20px;
+  top: 5px;
+  border-radius: 100% 0 0 0;
+}
+
+#b {
+  background: #6200ea;
+  left: 260px;
+  top: 5px;
+  border-radius: 0 100% 0 0;
+}
+
+#c {
+  background: orange;
+  top: 245px;
+  left: 260px;
+  border-radius: 0 0 100% 0;
+}
+
+#d {
+  background: #ff4081;
+  top: 245px;
+  left: 20px;
+  border-radius: 0 0 0 100%;
+}
+
+#center {
+  left: 115px;
+  top: 115px;
+  z-index: 3;
+  background: white;
+  color: grey;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: grey 10px solid;
+}
+#center h1 {
+  margin-top: 40px;
+  margin-bottom: 5px;
+  text-shadow: black 1px 1px 2px;
+  font-size: 35px;
+}
+#center p {
+  font-size: 18px;
+}
+
+#win {
+  left: 120px;
+  top: 120px;
+  z-index: 4;
+  background: #76ff03;
+  color: #00c853;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 20%;
+  border: grey 10px solid;
+  display: none;
+  border: yellow dashed 5px;
+}
+#win h1 {
+  font-family: "kavivanar", "dosis", cursive;
+  margin-top: 50px;
+}
+#win h3 {
+  margin-top: 50px;
+  border-radius: 20px 5px;
+  border: green dotted 2px;
+}
+#win h3:hover {
+  border-color: #00c853;
+  color: green;
+  background: #64dd17;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#lost {
+  left: 120px;
+  top: 120px;
+  z-index: 4;
+  background: #EF5350;
+  color: purple;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 20%;
+  border: grey 10px solid;
+  display: none;
+  border: yellow dashed 5px;
+}
+#lost h1 {
+  font-family: "kavivanar", "dosis", cursive;
+  margin-top: 50px;
+}
+#lost h3 {
+  margin-top: 50px;
+  border-radius: 20px 5px;
+  border: crimson dotted 2px;
+}
+#lost h3:hover {
+  border-color: purple;
+  color: crimson;
+  background: #ef5350;
+  background: #ff4081;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#circle {
+  z-index: 1;
+  background: grey;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+}
+
+.r {
+  font-size: 18px;
+  font-weight: normal;
+  text-shadow: none;
+  position: relative;
+  bottom: 15px;
+}
+
+.flo1 {
+  height: 50px;
+  padding-left: 70px;
+}
+.flo1 p {
+  float: left;
+  margin: 15px 20px 0px 0px;
+}
+.flo1 #count {
+  border: grey 3px solid;
+  border-radius: 20%;
+  background: yellow;
+  color: brown;
+  width: 40px;
+  height: 25px;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.flo2 {
+  float: left;
+  margin-left: 65px;
+  margin-right: 40px;
+  width: 40px;
+}
+
+.flo3 {
+  float: left;
+  width: 40px;
+}
+
+button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: grey 5px solid;
+  cursor: pointer;
+  outline: none;
+  box-shadow: black 1px 2px 3px;
+}
+
+#start {
+  background: green;
+  margin-top: 15px;
+}
+
+#str {
+  background: blue;
+  border: grey thin solid;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  margin: 5px auto 3px;
+  display: block;
+}
+
+#strict {
+  background: yellow;
+}
+  </style>
+</head>
+<body>
+<article class="game">
+  <div id="circle"></div>
+  <div id="win">
+    <h1>Gratulations! You won!</h1>
+    <h3>Click to reset and play again</h3>
+  </div>
+  <div id="lost">
+    <h1>You lost.</h1>
+    <h3>Reset and try again</h3>
+  </div>
+  <div id="center">
+    <h1>Simon<span class="r">&#xae;</span> game</h1>
+    <div class="flo1">
+      <p>Count</p>
+      <p id="count">--</p>
+    </div>
+    <div class="flo2"><button id="start"></button>
+      <p>Start</p>
+    </div>
+    <div class="flo3"><span id="str"></span><button id="strict"></button>
+      <p>Strict</p>
+    </div>
+  </div>
+  <p id="a" class="shape"></p>
+  <p id="b" class="shape"></p>
+  <p id="c" class="shape"></p>
+  <p id="d" class="shape"></p>
+  <script>
+  $(document).ready(function() {
+  $("#start").mousedown(function(e) {
+    $(this).css("box-shadow", "none");
+    $(this).css("margin-top", "17px");
+    $(".flo2>p").css("margin-top", "16px");
+  });
+  $("#start").mouseup(function(e) {
+    $(this).css("box-shadow", "black 1px 2px 3px");
+    $(this).css("margin-top", "15px");
+    $(".flo2>p").css("margin-top", "18px");
+  });
+  $("#strict").mousedown(function(e) {
+    $(this).css("box-shadow", "none");
+    $(this).css("margin-top", "2px");
+    $(".flo3>p").css("margin-top", "16px");
+  });
+  $("#strict").mouseup(function(e) {
+    $(this).css("box-shadow", "black 1px 2px 3px");
+    $(this).css("margin-top", "0px");
+    $(".flo3>p").css("margin-top", "18px");
+  });
+ var colors = {
+    a: { "f-c": "green", "s-c": "lime", sound: 1 },
+    b: { "f-c": "#6200ea", "s-c": "cyan", sound: 2 },
+    c: { "f-c": "orange", "s-c": "yellow", sound: 3 },
+    d: { "f-c": "#ff4081", "s-c": "pink", sound: 4 }
+  };
+  var rands = ["a", "b", "c", "d"];
+  var rand;
+  var strict = 0;
+  var flag = 0;
+  var shapeTime;
+  var shapeTime2;
+  var flagInt;
+  var flagInt2;
+  var pl;
+  var sh;
+  var sh2;
+  var le;
+  var stri1;
+  var stri2;
+  var stri3;
+  var str1;
+  var str2;
+  var str3;
+  var combos = [];
+  var len;
+  var i;
+  var combos2 = [];
+  var count = 0;
+  function alarm(stri, str, com) {
+    flag = 0;
+    if (strict == 0) {
+      $("#count").text("!!");
+      $("#center").css("background","crimson");
+      stri = setTimeout(function() {
+        $("#count").text(count);
+ $("#center").css("background","white");       
+        if (com == "empty") {
+          combos2 = [];
+        }
+        i = 0; 
+        len = combos.length;
+        play(len);
+      }, 1000);
+    }
+    else if (strict == 1) {
+      $("#count").text("!!");
+      $("#center").css("background","crimson");
+   str = setTimeout(function() {
+        count = 0;
+        $("#count").text("--");
+  $("#center").css("background","white");
+$("#lost").css("display","block");
+ $("#lost>h3").click(function() {
+  $("#lost").css("display","none");
+  combos = [];
+  combos2 = [];
+  for (let j = 0; j < rands.length; j++) {
+          $("#" + rands[j]).css("background", colors[rands[j]]["f-c"]);
+        }
+  addTurn();
+   }); 
+      }, 1000);
+    }
+  }
+  function play(len) {
+  $("#center").css("background","white");  
+    $("#" + combos[i]).css("background", colors[combos[i]]["s-c"]);
+    var s = colors[combos[i]].sound;
+    var aud = new Audio(
+      "https://s3.amazonaws.com/freecodecamp/simonSound" + s + ".mp3"
+    );
+    aud.play();
+    i++;
+    shapeTime = setTimeout(function() {
+      $("#" + combos[i - 1]).css("background", colors[combos[i - 1]]["f-c"]);
+   pl=setTimeout(function() {
+        if (len > 1) {
+          play(len - 1);
+        } else {
+          flag = 1;
+ $("#center").css("background","green");         
+          flagInt = setTimeout(function() {
+   alarm(stri1, str1, "full");   
+        }, 3000);
+        }
+      }, 500);
+    }, 2000);
+  }
+  function addTurn() {
+    console.log("addturn1");
+    rand = Math.floor(Math.random() * 4);
+    combos.push(rands[rand]);
+    len = combos.length;
+    i = 0;
+    play(len);
+    $(".shape").click(function() {
+      if (flag == 1) {
+        clearTimeout(flagInt);
+        clearTimeout(flagInt2);
+        flag = 0;
+        var id = $(this).attr("id");
+        combos2.push(id);
+        len = combos.length;
+        var len2 = combos2.length;
+        var last = len2 - 1;
+        if (combos2[last] == combos[last]) {
+          $(this).css("background", colors[id]["s-c"]);
+          var s = colors[id].sound;
+          var aud = new Audio(
+            "https://s3.amazonaws.com/freecodecamp/simonSound" + s + ".mp3"
+          );
+          aud.play();
+          var th = $(this);
+          shapeTime2 = setTimeout(function() {
+            th.css("background", colors[id]["f-c"]);
+            le = setTimeout(function() {
+              flag = 1;
+              if (len == len2) {
+                flag = 0;
+                count++;
+                if (count < 10) {
+                  $("#count").text("0" + count);
+                } else {
+                  $("#count").text(count);
+                }
+                combos2 = [];
+                if (count == 20) {
+                  $("#count").text("**");
+                  function shine(color, val) {
+                    th.css("background", colors[id][color]);
+                    if (!(val % 2)) {
+                      aud.load();
+                      aud.play();
+                    }
+                    sh = setTimeout(function() {
+                      if (val > 1) {
+                        if (val % 2 == 0) {
+                          shine("s-c", val - 1);
+                        } else if (val % 2) {
+                          shine("f-c", val - 1);
+                        }
+                      } else {
+$("#win").css("display","block");
+ $("#win>h3").click(function(){
+ $("#win").css("display","none");
+   reset();
+   setTimeout(function(){
+    addTurn(); 
+   },1000);
+  
+ });                       
+                      }
+                    }, 300);
+                  }
+                  sh2 = setTimeout(function() {
+                    shine("f-c", 10);
+                  }, 1000);
+                } else {
+                  addTurn("first");
+                }
+              } else {
+                flagInt2 = setTimeout(function() {
+  alarm(stri2, str2, "full");
+                }, 3000);
+              }
+            }, 1000);
+          }, 1000);
+        } else {
+  alarm(stri3, str3, "empty"); 
+        }
+      }
+    });
+    console.log("addturn2");
+  }
+  function reset() {
+    console.log("reset1");
+    clearTimeout(shapeTime);
+    clearTimeout(pl);
+    clearTimeout(flagInt);
+    clearTimeout(shapeTime2);
+    clearTimeout(flagInt2);
+    clearTimeout(stri1);
+    clearTimeout(stri2);
+    clearTimeout(stri3);
+    clearTimeout(str1);
+    clearTimeout(str2);
+    clearTimeout(str3);
+    clearTimeout(le);
+    clearTimeout(sh2);
+    clearTimeout(sh);
+    count = 0;
+    $("#count").text("--");
+    $("#center").css("background","white");
+    combos = [];
+    combos2 = [];
+    flag = 0;
+    for (let j = 0; j < rands.length; j++) {
+      $("#" + rands[j]).css("background", colors[rands[j]]["f-c"]);
+    }
+    console.log("reset2"); 
+  }
+  $("#start").click(function() {
+    if ($(".flo2>p").text() == "Start") {
+      $(".flo2>p").text("Reset");
+      addTurn();
+      $("#count").css("color", "red");
+      $(this).css("background", "red");
+    } else if ($(".flo2>p").text() == "Reset") {
+      $(".flo2>p").text("Start");
+      reset();
+      $("#count").css("color", "brown");
+      $(this).css("background", "green");
+    }
+  });
+  var back = "blue";
+  $("#strict").click(function() {
+    if (back == "blue") {
+      back = "red";
+      strict = 1;
+      $("#str").css("background", "red");
+      $(this).css("background", "orange");
+    } else if (back == "red") {
+      back = "blue";
+      strict = 0;
+      $("#str").css("background", "blue");
+      $(this).css("background", "yellow");
+    }
+  });
+});
+  </script>
+  </body>
+</article>
+</html>
